@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Ping Render Server
         run: |
-          curl https://your-render-domain.onrender.com/health || true
+          curl https://socket-server-1-sdhw.onrender.com/health || true
