@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-    cors: { origin: "http://localhost:3000" },
+    cors: { origin: ["https://chat-bot-ashy-mu.vercel.app", "http://localhost:3000"] },
 });
 const redisClient = new Redis({
     url: process.env.UPSTASH_REDIS_REST_URL,
