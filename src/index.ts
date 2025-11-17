@@ -11,7 +11,6 @@ const io = new Server(server, {
   cors: { origin: "https://chat-bot-ashy-mu.vercel.app" },
 })
 
-
 const redisClient = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!
