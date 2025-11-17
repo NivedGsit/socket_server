@@ -2,8 +2,8 @@ name: Keep Render Server Awake
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # every 5 minutes
-  workflow_dispatch:        # allow manual trigger
+    - cron: "* * * * *"   # every minute
+  workflow_dispatch:        # allows manual trigger
 
 jobs:
   ping:
