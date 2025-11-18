@@ -335,6 +335,8 @@ io.on("connection", async (socket) => {
   
   // optional: mark user offline
 
+  io.emit("user-left", userId)
+
   console.log(`Chat deleted for user ${userId}`);
 });
 

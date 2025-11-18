@@ -268,6 +268,7 @@ io.on("connection", async (socket) => {
         // await redisClient.del(`user:${userId}:details`);
         await redisClient.del(`user:${userId}:unreadCount`);
         // optional: mark user offline
+        io.emit("user-left", userId);
         console.log(`Chat deleted for user ${userId}`);
     });
 });
