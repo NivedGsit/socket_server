@@ -9,6 +9,9 @@ const server = http.createServer(app);
 const io = new Server(server, {
     cors: { origin: ["https://chat-bot-ashy-mu.vercel.app", "http://localhost:3000"] },
 });
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
+});
 const redisClient = new Redis({
     url: process.env.UPSTASH_REDIS_REST_URL,
     token: process.env.UPSTASH_REDIS_REST_TOKEN
@@ -85,7 +88,7 @@ io.on("connection", async (socket) => {
             }
             // user details
             const detailsRaw = await redisClient.get(`user:${userId}:details`);
-            let details = null;
+            let details;
             try {
                 details = detailsRaw;
             }
@@ -155,6 +158,7 @@ io.on("connection", async (socket) => {
             return;
         // Save details directly (not wrapped inside `{ answers }`)
         await redisClient.set(`user:${userId}:details`, JSON.stringify(answers));
+        console.log(`user:${userId}:details`, answers);
         // Broadcast to all admins with the same shape
         adminSockets.forEach((adminId) => {
             io.to(adminId).emit("user-details", { userId, answers });
@@ -261,7 +265,7 @@ io.on("connection", async (socket) => {
     socket.on("user-disconnected", async (userId) => {
         console.log("Deleting chat for:", userId);
         await redisClient.del(`chat:${userId}`);
-        await redisClient.del(`user:${userId}:details`);
+        // await redisClient.del(`user:${userId}:details`);
         await redisClient.del(`user:${userId}:unreadCount`);
         // optional: mark user offline
         console.log(`Chat deleted for user ${userId}`);

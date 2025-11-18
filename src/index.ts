@@ -109,25 +109,27 @@ io.on("connection", async (socket) => {
 
       // user details
       const detailsRaw = await redisClient.get(`user:${userId}:details`);
-      let details = null;
-
+      let details;
+      
       try {
         details = detailsRaw;
       } catch {
         details = {};
       }
-
+      
+      
       // unread
       const unreadCount = parseInt(
         (await redisClient.get(`user:${userId}:unreadCount`)) || "0"
       );
-
+      
       everyChats.push({
         userId,
         messages,
         details,
         unreadCount,
       });
+      
     }
 
     // send back ONLY to this socket
@@ -199,6 +201,8 @@ io.on("connection", async (socket) => {
 
     // Save details directly (not wrapped inside `{ answers }`)
     await redisClient.set(`user:${userId}:details`, JSON.stringify(answers));
+
+    console.log(`user:${userId}:details`,answers)
 
     // Broadcast to all admins with the same shape
     adminSockets.forEach((adminId) => {
@@ -326,7 +330,7 @@ io.on("connection", async (socket) => {
   console.log("Deleting chat for:", userId);
 
   await redisClient.del(`chat:${userId}`);
-  await redisClient.del(`user:${userId}:details`);
+  // await redisClient.del(`user:${userId}:details`);
   await redisClient.del(`user:${userId}:unreadCount`);
   
   // optional: mark user offline
