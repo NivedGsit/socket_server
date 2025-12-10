@@ -72,9 +72,8 @@ io.on("connection", async (socket) => {
         for (const key of keys) {
             const userId = key.replace("chat-history:", "");
             // Skip kicked users (optional)
-            const isKicked = await redisClient.get(`user:${userId}:kicked`);
-            if (isKicked)
-                continue;
+            // const isKicked = await redisClient.get(`user:${userId}:kicked`);
+            // if (isKicked) continue;
             // permanent message history
             const historyRaw = await redisClient.get(`chat-history:${userId}`);
             let messages = [];
