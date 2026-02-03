@@ -11,6 +11,7 @@ const io = new Server(server, {
   cors: { origin: ["https://chat-bot-ashy-mu.vercel.app","http://localhost:3000"] },
 })
 
+
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
